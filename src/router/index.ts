@@ -4,7 +4,11 @@ import PokemonDetailView from "@/views/PokemonDetailView.vue";
 
 const routes = [
   { path: "/", component: HomeView },
-  { path: "/pokemon/:id", component: PokemonDetailView },
+  {
+    path: "/pokemon/:idOrName",
+    name: "PokemonDetails",
+    component: PokemonDetailView,
+  },
 ];
 
 const router = createRouter({

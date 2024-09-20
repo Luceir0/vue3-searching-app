@@ -35,8 +35,12 @@
         </ul>
     </div>
 
-    <div v-else class="flex items-center justify-center">
+    <div v-else class="flex flex-col gap-10 items-center justify-center">
         <img class="animate-spin w-12 h-auto mt-12" :src="pokeballIcon" alt="Loading...">
+        <img class="w-40" :src="notFoundIcon" alt="Not found">
+        <div class="font-pixel text-2xl">
+            {{ errorMessage }}
+        </div>
     </div>
 </template>
 
@@ -45,15 +49,25 @@ import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import type { PokemonDetail } from '@/interfaces/pokemonInterfaces'
 import pokeballIcon from '@/assets/icons/pokeball-icon.png'
-
+import notFoundIcon from '@/assets/icons/not-found.png'
 
 const route = useRoute();
 const pokemon = ref<PokemonDetail | null>(null);
+const errorMessage = ref<string | null>(null);
 
 onMounted(async () => {
-    const pokemonId = route.params.id as string;
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`)
-    pokemon.value = await response.json();
+    const pokemonIdOrName = route.params.idOrName as string;
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonIdOrName}`);
+        if (!response.ok) {
+            throw new Error('Pokemon not found');
+        }
+        pokemon.value = await response.json();
+        errorMessage.value = null;
+    } catch (error: any) {
+        errorMessage.value = error.message;
+        pokemon.value = null;
+    }
 });
 </script>
 
