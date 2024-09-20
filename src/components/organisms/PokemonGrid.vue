@@ -5,27 +5,29 @@
         </div>
 
         <div v-if="pokemonStore.loading" class="flex items-center justify-center">
-            <img class="animate-spin w-28 h-auto mt-10" :src="pokeballIcon" alt="Loading...">
+            <img class="animate-spin w-12 h-auto mt-12" :src="pokeballIcon" alt="Loading...">
         </div>
 
         <div v-if="pokemonStore.error" class="text-red-500">{{ pokemonStore.error }}</div>
 
-        <ul v-if="!pokemonStore.loading">
-            <li v-if="pokemonStore.pokemons.length > 0" v-for="pokemon in pokemonStore.pokemons" :key="pokemon.name">
-                {{ pokemon.name }}
-                {{ pokemon.url }}
-                <img :src="pokemon.image_front" alt="">
-                <img :src="pokemon.image_back" alt="">
-            </li>
-            <li v-else>No results</li>
-        </ul>
+        <div v-if="!pokemonStore.loading" class="grid grid-cols-1 gap-6 lg:gap-4 sm:grid-cols-2 lg:grid-cols-3 mt-6">
+
+            <PokemonBasicCard v-if="pokemonStore.pokemons.length > 0" v-for="pokemon in pokemonStore.pokemons"
+                :key="pokemon.name" :the-name="pokemon.name" :the-front-img="pokemon.image_front"
+                :the-back-img="pokemon.image_back" :the-id="pokemon.id">
+            </PokemonBasicCard>
+
+            <div v-else class="font-pixel text-2xl mx-auto">No results</div>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
-import pokeballIcon from '@/assets/icons/pokeball-icon.png'
 import { onMounted } from "vue";
 import { usePokemonStore } from "@/stores/pokemon";
+import PokemonBasicCard from '@/components/molecules/PokemonBasicCard.vue'
+
+import pokeballIcon from '@/assets/icons/pokeball-icon.png'
 
 const pokemonStore = usePokemonStore();
 

@@ -3,7 +3,7 @@
         <div class="font-pixel text-2xl">
             Filter by type
         </div>
-        <div class="flex items-center justify-between gap-4 w-100 overflow-x-auto scrollbar-hide py-4">
+        <div class="flex items-center gap-4 w-100 overflow-x-auto scrollbar-hide py-4">
             <TypeCard v-for="(item, index) in pokemonTypes" :key="index" :the-type="item.name" :the-img="item.image">
             </TypeCard>
         </div>

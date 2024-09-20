@@ -1,30 +1,6 @@
 import { defineStore } from "pinia";
 import type { Pokemon, PokemonState } from "@/interfaces/pokemonInterfaces";
 
-// export const usePokemonStore = defineStore("pokemon", {
-//   state: (): PokemonState => ({
-//     pokemons: [],
-//     loading: false,
-//     error: null,
-//   }),
-//   actions: {
-//     async fetchPokemons() {
-//       this.loading = true;
-//       try {
-//         const response = await fetch(
-//           "https://pokeapi.co/api/v2/pokemon?limit=151"
-//         );
-//         const data = await response.json();
-//         this.pokemons = data.results as Pokemon[];
-//       } catch (error: any) {
-//         this.error = error.message;
-//       } finally {
-//         this.loading = false;
-//       }
-//     },
-//   },
-// });
-
 export const usePokemonStore = defineStore("pokemon", {
   state: (): PokemonState => ({
     pokemons: [],
