@@ -4,7 +4,8 @@
             Filter by type
         </div>
         <div class="flex items-center gap-4 w-100 overflow-x-auto scrollbar-hide py-4">
-            <TypeCard v-for="(item, index) in pokemonTypes" :key="index" :the-type="item.name" :the-img="item.image">
+            <TypeCard v-for="(item, index) in pokemonTypes" :key="index" :the-type="item.name" :the-img="item.image"
+                @select-type="filterByType">
             </TypeCard>
         </div>
     </div>
@@ -13,7 +14,13 @@
 
 <script setup lang="ts">
 import TypeCard from '@/components/molecules/TypeCard.vue'
-import { pokemonTypes } from '@/interfaces/pokemonTypes';
+import { pokemonTypes } from '@/interfaces/pokemonTypes'
+
+const emit = defineEmits(['type-selected'])
+
+const filterByType = (type: string) => {
+    emit('type-selected', type)
+}
 </script>
 
 <style>

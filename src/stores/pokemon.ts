@@ -38,5 +38,32 @@ export const usePokemonStore = defineStore("pokemon", {
         this.loading = false;
       }
     },
+
+    async fetchPokemonsByType(type: string) {
+      this.loading = true;
+      try {
+        const response = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
+        const data = await response.json();
+
+        const promises = data.pokemon.map(async (pokeData: any) => {
+          const pokemonDetailsResponse = await fetch(pokeData.pokemon.url);
+          const pokemonDetails = await pokemonDetailsResponse.json();
+
+          return {
+            name: pokemonDetails.name,
+            url: pokeData.pokemon.url,
+            id: pokemonDetails.id,
+            image_front: pokemonDetails.sprites.front_default,
+            image_back: pokemonDetails.sprites.back_default,
+          } as Pokemon;
+        });
+
+        this.pokemons = await Promise.all(promises);
+      } catch (error: any) {
+        this.error = error.message;
+      } finally {
+        this.loading = false;
+      }
+    },
   },
 });
