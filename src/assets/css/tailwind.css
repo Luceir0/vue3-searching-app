@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    @font-face {
+      font-family: "Outfit";
+      src: url("@/assets/fonts/Outfit-Variable.ttf") format("truetype");
+    }
+  
+    @font-face {
+      font-family: "Pixelify";
+      src: url("@/assets/fonts/Pixelify-Variable.ttf") format("truetype");
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #292929;
+        border-radius: 16px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: #759834;
+        border-radius: 16px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: #99C24D;
+    }
+}
