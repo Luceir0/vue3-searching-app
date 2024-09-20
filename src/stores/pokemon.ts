@@ -1,14 +1,25 @@
 import { defineStore } from "pinia";
-import type { Pokemon, PokemonState } from "@/interfaces/pokemonInterfaces";
+import type {
+  Pokemon,
+  PokemonDetail,
+  PokemonState,
+} from "@/interfaces/pokemonInterfaces";
 
 export const usePokemonStore = defineStore("pokemon", {
   state: (): PokemonState => ({
-    pokemons: [],
+    pokemonList: [],
+    pokemonListError: null,
+    selectedPokemon: null,
+    selectedPokemonError: null,
     loading: false,
-    error: null,
   }),
   actions: {
     async fetchPokemons() {
+      // Verificando si hay una lista de Pokemons cacheada
+      if (this.pokemonList.length > 0) {
+        return; // Si hay Pokemon en caché, se evita la llamada
+      }
+
       this.loading = true;
       try {
         const response = await fetch(
@@ -31,9 +42,9 @@ export const usePokemonStore = defineStore("pokemon", {
           }
         );
 
-        this.pokemons = await Promise.all(promises);
+        this.pokemonList = await Promise.all(promises);
       } catch (error: any) {
-        this.error = error.message;
+        this.pokemonListError = error.message;
       } finally {
         this.loading = false;
       }
@@ -58,9 +69,36 @@ export const usePokemonStore = defineStore("pokemon", {
           } as Pokemon;
         });
 
-        this.pokemons = await Promise.all(promises);
+        this.pokemonList = await Promise.all(promises);
       } catch (error: any) {
-        this.error = error.message;
+        this.pokemonListError = error.message;
+      } finally {
+        this.loading = false;
+      }
+    },
+
+    async fetchPokemonByIdOrName(idOrName: string) {
+      if (
+        this.selectedPokemon?.name === idOrName ||
+        this.selectedPokemon?.id === Number(idOrName)
+      ) {
+        return; // Comprobando si hay un selectedPokemon en caché. Si lo hay, evitamos la llamada
+      }
+
+      this.loading = true;
+      this.selectedPokemonError = null;
+      try {
+        const response = await fetch(
+          `https://pokeapi.co/api/v2/pokemon/${idOrName}`
+        );
+        if (!response.ok) {
+          throw new Error("Pokemon not found");
+        }
+        const pokemonDetail: PokemonDetail = await response.json();
+        this.selectedPokemon = pokemonDetail; // Cacheando el Pokemon
+      } catch (error: any) {
+        this.selectedPokemonError = error.message;
+        this.selectedPokemon = null;
       } finally {
         this.loading = false;
       }

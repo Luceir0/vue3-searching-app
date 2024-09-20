@@ -1,3 +1,11 @@
+export interface PokemonState {
+  pokemonList: Pokemon[];
+  pokemonListError: string | null;
+  selectedPokemon: PokemonDetail | null;
+  selectedPokemonError: string | null;
+  loading: boolean;
+}
+
 export interface Pokemon {
   name: string;
   url: string;
@@ -31,10 +39,4 @@ export interface PokemonDetail {
       name: string;
     };
   }[];
-}
-
-export interface PokemonState {
-  pokemons: Pokemon[];
-  loading: boolean;
-  error: string | null;
 }

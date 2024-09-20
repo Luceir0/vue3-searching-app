@@ -1,19 +1,19 @@
 <template>
-    <div v-if="pokemon" class="pokemon-detail-container">
-        <div class="font-pixel text-4xl capitalize">{{ pokemon.name }}</div>
+    <div v-if="pokemonStore.selectedPokemon" class="pokemon-detail-container">
+        <div class="font-pixel text-4xl capitalize">{{ pokemonStore.selectedPokemon.name }}</div>
         <div class="flex items-center justify-center">
-            <img :src="pokemon.sprites.front_default" alt="Front Image" class="w-40 h-40 mt-2" />
-            <img :src="pokemon.sprites.back_default" alt="Back Image" class="w-40 h-40 mt-2" />
+            <img :src="pokemonStore.selectedPokemon.sprites.front_default" alt="Front Image" class="w-40 h-40 mt-2" />
+            <img :src="pokemonStore.selectedPokemon.sprites.back_default" alt="Back Image" class="w-40 h-40 mt-2" />
         </div>
-        <div class="font-pixel text-xl mt-4">ID: {{ pokemon.id }}</div>
-        <div class="font-pixel text-xl mt-4">Base Experience: {{ pokemon.base_experience }}</div>
-        <div class="font-pixel text-xl mt-4">Height: {{ pokemon.height }}</div>
-        <div class="font-pixel text-xl mt-4">Weight: {{ pokemon.weight }}</div>
+        <div class="font-pixel text-xl mt-4">ID: {{ pokemonStore.selectedPokemon.id }}</div>
+        <div class="font-pixel text-xl mt-4">Base Experience: {{ pokemonStore.selectedPokemon.base_experience }}</div>
+        <div class="font-pixel text-xl mt-4">Height: {{ pokemonStore.selectedPokemon.height }}</div>
+        <div class="font-pixel text-xl mt-4">Weight: {{ pokemonStore.selectedPokemon.weight }}</div>
 
         <!-- Abilities -->
         <div class="font-pixel text-2xl mt-6">Abilities:</div>
         <ul class="abilities-list list-inside">
-            <li v-for="(ability, index) in pokemon.abilities" :key="index" class="capitalize">
+            <li v-for="(ability, index) in pokemonStore.selectedPokemon.abilities" :key="index" class="capitalize">
                 {{ ability.ability.name }}
             </li>
         </ul>
@@ -21,7 +21,7 @@
         <!-- Types -->
         <div class="font-pixel text-2xl mt-6">Types:</div>
         <ul class="type-list list-inside">
-            <li v-for="(type, index) in pokemon.types" :key="index" class="capitalize">
+            <li v-for="(type, index) in pokemonStore.selectedPokemon.types" :key="index" class="capitalize">
                 {{ type.type.name }}
             </li>
         </ul>
@@ -29,46 +29,49 @@
         <!-- Moves -->
         <div class="font-pixel text-2xl mt-6">Moves:</div>
         <ul class="moves-list list-inside">
-            <li v-for="(move, index) in pokemon.moves.slice(0, 10)" :key="index" class="capitalize">
+            <li v-for="(move, index) in pokemonStore.selectedPokemon.moves.slice(0, 10)" :key="index"
+                class="capitalize">
                 {{ move.move.name }}
             </li>
         </ul>
     </div>
 
-    <div v-else class="flex flex-col gap-10 items-center justify-center">
+    <div v-else-if="pokemonStore.loading" class="flex flex-col gap-10 items-center justify-center">
         <img class="animate-spin w-12 h-auto mt-12" :src="pokeballIcon" alt="Loading...">
+    </div>
+
+    <div v-else class="flex flex-col gap-4 items-center justify-center py-8">
         <img class="w-40" :src="notFoundIcon" alt="Not found">
-        <div class="font-pixel text-2xl">
+        <div class="font-pixel text-2xl text-pokemon-yellow">
             {{ errorMessage }}
         </div>
+        <router-link to="/"
+            class="flex gap-4 mt-10 align-middle bg-zinc-800 justify-center hover:text-white hover:-translate-x-1 transition ease-in-out duration-300 cursor-pointer text-lg border rounded-md px-4 py-2">
+            Return home 🏠
+        </router-link>
     </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import type { PokemonDetail } from '@/interfaces/pokemonInterfaces'
+import { usePokemonStore } from '@/stores/pokemon'
 import pokeballIcon from '@/assets/icons/pokeball-icon.png'
 import notFoundIcon from '@/assets/icons/not-found.png'
 
-const route = useRoute();
-const pokemon = ref<PokemonDetail | null>(null);
-const errorMessage = ref<string | null>(null);
+const route = useRoute()
+const pokemonStore = usePokemonStore()
+const errorMessage = ref<string | null>(null)
 
 onMounted(async () => {
-    const pokemonIdOrName = route.params.idOrName as string;
-    try {
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonIdOrName}`);
-        if (!response.ok) {
-            throw new Error('Pokemon not found');
-        }
-        pokemon.value = await response.json();
-        errorMessage.value = null;
-    } catch (error: any) {
-        errorMessage.value = error.message;
-        pokemon.value = null;
+    const pokemonIdOrName = route.params.idOrName as string
+    await pokemonStore.fetchPokemonByIdOrName(pokemonIdOrName)
+    if (pokemonStore.selectedPokemonError) {
+        errorMessage.value = pokemonStore.selectedPokemonError
+    } else {
+        errorMessage.value = null
     }
-});
+})
 </script>
 
 <style scoped>
