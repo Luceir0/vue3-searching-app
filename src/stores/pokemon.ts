@@ -98,29 +98,73 @@ export const usePokemonStore = defineStore("pokemon", {
       }
     },
 
-    async fetchPokemonByIdOrName(idOrName: string) {
+    async fetchPokemonByIdOrName(
+      idOrName: string
+    ): Promise<PokemonDetail | null> {
+      // Comprobando si el Pokémon ya está en caché
       if (
         this.selectedPokemon?.name === idOrName ||
         this.selectedPokemon?.id === Number(idOrName)
       ) {
-        return; // Comprobando si hay un selectedPokemon en caché. Si lo hay, evitamos la llamada
+        return this.selectedPokemon; // Si el Pokémon ya está cacheado, lo devolvemos directamente
       }
 
       this.loading = true;
       this.selectedPokemonError = null;
+
       try {
         const response = await fetch(
           `https://pokeapi.co/api/v2/pokemon/${idOrName}`
         );
+
+        // Comprobar si la respuesta es válida
         if (!response.ok) {
           throw new Error("Pokemon not found");
         }
+
+        // Parseamos la respuesta en formato JSON
         const pokemonDetail: PokemonDetail = await response.json();
-        this.selectedPokemon = pokemonDetail; // Cacheando el Pokemon
+
+        // Formateamos el objeto para devolver solo los datos necesarios
+        const formattedPokemonDetail: PokemonDetail = {
+          id: pokemonDetail.id,
+          name: pokemonDetail.name,
+          base_experience: pokemonDetail.base_experience,
+          height: pokemonDetail.height,
+          weight: pokemonDetail.weight,
+          sprites: {
+            front_default: pokemonDetail.sprites.front_default || null,
+            back_default: pokemonDetail.sprites.back_default || null,
+          },
+          abilities: pokemonDetail.abilities.map((abilityData) => ({
+            ability: {
+              name: abilityData.ability.name,
+            },
+          })),
+          types: pokemonDetail.types.map((typeData) => ({
+            type: {
+              name: typeData.type.name,
+            },
+          })),
+          moves: pokemonDetail.moves.map((moveData) => ({
+            move: {
+              name: moveData.move.name,
+            },
+          })),
+        };
+
+        // Cacheamos el Pokémon seleccionado
+        this.selectedPokemon = formattedPokemonDetail;
+
+        // Devolvemos el detalle del Pokémon
+        return formattedPokemonDetail;
       } catch (error: any) {
+        // Manejo de errores
         this.selectedPokemonError = "Pokemon not found";
         this.selectedPokemon = null;
+        return null; // Devolver null si hay error
       } finally {
+        // Detener el estado de carga
         this.loading = false;
       }
     },
