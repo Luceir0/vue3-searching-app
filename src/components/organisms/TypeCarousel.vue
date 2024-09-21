@@ -15,11 +15,19 @@
 <script setup lang="ts">
 import TypeCard from '@/components/molecules/TypeCard.vue'
 import { pokemonTypes } from '@/interfaces/pokemonTypes'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const emit = defineEmits(['type-selected'])
 
 const filterByType = (type: string) => {
     emit('type-selected', type)
+    if (type != 'all') {
+        router.push({ query: { type: type } })
+    } else {
+        router.push('/')
+    }
 }
 </script>
 

@@ -21,6 +21,8 @@ export const usePokemonStore = defineStore("pokemon", {
       }
 
       this.loading = true;
+      this.pokemonListError = null;
+
       try {
         const response = await fetch(
           "https://pokeapi.co/api/v2/pokemon?limit=151"
@@ -36,15 +38,15 @@ export const usePokemonStore = defineStore("pokemon", {
               name: pokemonDetails.name,
               url: pokemon.url,
               id: pokemonDetails.id,
-              image_front: pokemonDetails.sprites.front_default,
-              image_back: pokemonDetails.sprites.back_default,
+              image_front: pokemonDetails.sprites.front_default || null,
+              image_back: pokemonDetails.sprites.back_default || null,
             } as Pokemon;
           }
         );
 
         this.pokemonList = await Promise.all(promises);
       } catch (error: any) {
-        this.pokemonListError = error.message;
+        this.pokemonListError = "Pokemon not found";
       } finally {
         this.loading = false;
       }
@@ -52,6 +54,7 @@ export const usePokemonStore = defineStore("pokemon", {
 
     async fetchPokemonsByType(type: string) {
       this.loading = true;
+      this.pokemonListError = null;
       try {
         const response = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
         const data = await response.json();
@@ -64,14 +67,14 @@ export const usePokemonStore = defineStore("pokemon", {
             name: pokemonDetails.name,
             url: pokeData.pokemon.url,
             id: pokemonDetails.id,
-            image_front: pokemonDetails.sprites.front_default,
-            image_back: pokemonDetails.sprites.back_default,
+            image_front: pokemonDetails.sprites.front_default || null,
+            image_back: pokemonDetails.sprites.back_default || null,
           } as Pokemon;
         });
 
         this.pokemonList = await Promise.all(promises);
       } catch (error: any) {
-        this.pokemonListError = error.message;
+        this.pokemonListError = "Pokemon not found";
       } finally {
         this.loading = false;
       }
@@ -97,7 +100,7 @@ export const usePokemonStore = defineStore("pokemon", {
         const pokemonDetail: PokemonDetail = await response.json();
         this.selectedPokemon = pokemonDetail; // Cacheando el Pokemon
       } catch (error: any) {
-        this.selectedPokemonError = error.message;
+        this.selectedPokemonError = "Pokemon not found";
         this.selectedPokemon = null;
       } finally {
         this.loading = false;

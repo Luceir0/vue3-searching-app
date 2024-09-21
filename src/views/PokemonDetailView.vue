@@ -2,8 +2,10 @@
     <div v-if="pokemonStore.selectedPokemon" class="pokemon-detail-container">
         <div class="font-pixel text-4xl capitalize">{{ pokemonStore.selectedPokemon.name }}</div>
         <div class="flex items-center justify-center">
-            <img :src="pokemonStore.selectedPokemon.sprites.front_default" alt="Front Image" class="w-40 h-40 mt-2" />
-            <img :src="pokemonStore.selectedPokemon.sprites.back_default" alt="Back Image" class="w-40 h-40 mt-2" />
+            <img :src="pokemonStore.selectedPokemon.sprites.front_default || imgNotFound" alt="Front Image"
+                class="w-40 mt-2" />
+            <img :src="pokemonStore.selectedPokemon.sprites.back_default || imgNotFound" alt="Back Image"
+                class="w-40 mt-2" />
         </div>
         <div class="font-pixel text-xl mt-4">ID: {{ pokemonStore.selectedPokemon.id }}</div>
         <div class="font-pixel text-xl mt-4">Base Experience: {{ pokemonStore.selectedPokemon.base_experience }}</div>
@@ -58,6 +60,7 @@ import { useRoute } from 'vue-router'
 import { usePokemonStore } from '@/stores/pokemon'
 import pokeballIcon from '@/assets/icons/pokeball-icon.png'
 import notFoundIcon from '@/assets/icons/not-found.png'
+import imgNotFound from '@/assets/icons/img-not-found.png'
 
 const route = useRoute()
 const pokemonStore = usePokemonStore()

@@ -10,8 +10,8 @@ export interface Pokemon {
   name: string;
   url: string;
   id: number;
-  image_front: string;
-  image_back: string;
+  image_front: string | null;
+  image_back: string | null;
 }
 
 export interface PokemonDetail {
@@ -21,8 +21,8 @@ export interface PokemonDetail {
   height: number;
   weight: number;
   sprites: {
-    front_default: string;
-    back_default: string;
+    front_default: string | null;
+    back_default: string | null;
   };
   abilities: {
     ability: {
