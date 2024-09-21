@@ -4,8 +4,8 @@
             class="bg-white/5 hover:bg-white/10 transition ease-in-out duration-500 rounded-lg p-2 lg:p-4 flex lg:flex-col items-center justify-between gap-4 cursor-pointer group overflow-hidden">
             <div
                 class="flex flex-col lg:flex-row items-center justify-center group-hover:scale-110 transition ease-in-out duration-500 w-1/2 lg:w-full">
-                <img :src="props.theFrontImg || notFound" alt="Front Image" class="w-32 lg:w-40 lg:mt-2">
-                <img :src="props.theBackImg || notFound" alt="Back Image" class="w-40 mt-2 hidden lg:block">
+                <img :src="props.theFrontImg || notFound" alt="Front Image" class="w-32 lg:w-40 lg:h-40 lg:mt-2">
+                <img :src="props.theBackImg || notFound" alt="Back Image" class="w-40 h-40 mt-2 hidden lg:block">
             </div>
 
             <div
@@ -13,7 +13,7 @@
                 <div>
                     #{{ props.theId }}
                 </div>
-                <div>
+                <div class="truncate">
                     {{ props.theName }}
                 </div>
             </div>
