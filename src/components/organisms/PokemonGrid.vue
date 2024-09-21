@@ -63,7 +63,6 @@ onMounted(() => {
 
 // Watch for type selection changes, and fetching accordingly:
 watch(() => props.selectedType, (newType) => {
-    console.log(newType)
     if (newType && newType !== 'all') {
         pokemonStore.fetchPokemonsByType(newType)
         theType.value = newType
