@@ -1,8 +1,9 @@
 <template>
-    <div class="flex flex-col">
-        <div v-if="pokemonDetail" class="flex-grow flex flex-col lg:flex-row items-top justify-around">
-            <div class="mt-8">
-                <div class="flex items-center justify-between px-4 py-2">
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:px-12">
+        <div v-if="pokemonDetail"
+            class="flex-grow flex flex-col lg:flex-row items-top lg:items-top lg:mt-6 justify-around lg:gap-20">
+            <div class="mt-8 lg:mt-0">
+                <div class="flex items-center justify-between px-4 py-2 lg:pb-2 lg:pt-0">
                     <div class="font-pixel text-4xl capitalize truncate">{{ pokemonDetail.name }}</div>
                     <div class="font-pixel text-3xl"># {{ pokemonDetail.id }}</div>
                 </div>
@@ -22,7 +23,9 @@
 
             </div>
 
-            <PokemonInfo :pokemon-detail="pokemonDetail" class="fixed bottom-0 h-2/5"></PokemonInfo>
+            <PokemonInfo :pokemon-detail="pokemonDetail"
+                class="fixed bottom-0 h-2/5 lg:static lg:bottom-auto lg:flex-grow">
+            </PokemonInfo>
         </div>
 
         <div v-else-if="loading" class="flex flex-col gap-10 items-center justify-center">

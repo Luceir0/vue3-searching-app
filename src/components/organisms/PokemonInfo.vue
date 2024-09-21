@@ -1,13 +1,13 @@
 <template>
-    <div class="w-screen -mx-8 rounded-t-2xl bg-white/5">
+    <div class="w-screen -mx-8 lg:w-auto lg:mx-0 rounded-t-2xl bg-white/5 lg:min-h-[calc(100vh-230px)]">
         <div class="flex items-center justify-center">
-            <div class="flex-1 h-full py-6 flex items-center justify-center font-semibold text-xl rounded-tl-2xl"
+            <div class="flex-1 h-full py-6 flex items-center justify-center font-semibold text-xl rounded-tl-2xl cursor-pointer lg:hover:bg-white/15"
                 :class="(activeCard === 'About') ? 'bg-white/10' : ''" @click="changecard('About')">
                 About</div>
-            <div class="flex-1 h-full py-6 flex items-center justify-center font-semibold text-xl"
+            <div class="flex-1 h-full py-6 flex items-center justify-center font-semibold text-xl cursor-pointer lg:hover:bg-white/15"
                 :class="(activeCard === 'Abilities') ? 'bg-white/10' : ''" @click="changecard('Abilities')">Abilities
             </div>
-            <div class="flex-1 h-full py-6 flex items-center justify-center font-semibold text-xl rounded-tr-2xl"
+            <div class="flex-1 h-full py-6 flex items-center justify-center font-semibold text-xl rounded-tr-2xl cursor-pointer lg:hover:bg-white/15"
                 :class="(activeCard === 'Moves') ? 'bg-white/10' : ''" @click="changecard('Moves')">
                 Moves</div>
         </div>
@@ -19,10 +19,10 @@
             </div>
             <div class="text-xl font-semibold mt-4"><span class="font-bold pr-2">📏 Height:</span> {{
                 props.pokemonDetail.height
-                }} ''</div>
+            }} ''</div>
             <div class="text-xl font-semibold mt-4"><span class="font-bold pr-2">⚖️ Weight:</span> {{
                 props.pokemonDetail.weight
-            }} lbs</div>
+                }} lbs</div>
         </div>
 
         <!-- Abilities -->
