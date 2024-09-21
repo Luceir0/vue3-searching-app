@@ -4,6 +4,8 @@ export interface PokemonState {
   selectedPokemon: PokemonDetail | null;
   selectedPokemonError: string | null;
   loading: boolean;
+  currentOffset: number;
+  limit: number;
 }
 
 export interface Pokemon {

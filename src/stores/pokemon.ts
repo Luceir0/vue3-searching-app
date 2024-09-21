@@ -12,12 +12,18 @@ export const usePokemonStore = defineStore("pokemon", {
     selectedPokemon: null,
     selectedPokemonError: null,
     loading: false,
+    currentOffset: 0, // Estado para almacenar el offset actual
+    limit: 151, // Límite por defecto
   }),
   actions: {
-    async fetchPokemons() {
+    async fetchPokemons(forceReload: boolean = false, offset: number = 0) {
       // Verificando si hay una lista de Pokemons cacheada
-      if (this.pokemonList.length > 0) {
-        return; // Si hay Pokemon en caché, se evita la llamada
+      if (
+        this.pokemonList.length > 0 &&
+        !forceReload &&
+        offset === this.currentOffset
+      ) {
+        return; // Evitar llamada si ya están cacheados y no se fuerza la recarga
       }
 
       this.loading = true;
@@ -25,7 +31,7 @@ export const usePokemonStore = defineStore("pokemon", {
 
       try {
         const response = await fetch(
-          "https://pokeapi.co/api/v2/pokemon?limit=151"
+          `https://pokeapi.co/api/v2/pokemon?limit=${this.limit}&offset=${offset}`
         );
         const data = await response.json();
 
@@ -44,7 +50,19 @@ export const usePokemonStore = defineStore("pokemon", {
           }
         );
 
-        this.pokemonList = await Promise.all(promises);
+        // Si el offset es mayor a 0, concatenamos los nuevos resultados a la lista
+        if (offset > 0) {
+          this.pokemonList = [
+            ...this.pokemonList,
+            ...(await Promise.all(promises)),
+          ];
+        } else {
+          // Si es el primer grupo, sobrescribimos la lista
+          this.pokemonList = await Promise.all(promises);
+        }
+
+        // Actualizamos el offset actual
+        this.currentOffset = offset;
       } catch (error: any) {
         this.pokemonListError = "Pokemon not found";
       } finally {

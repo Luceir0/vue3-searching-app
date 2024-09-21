@@ -1,6 +1,6 @@
 <template>
     <div class="searchbar-container py-5">
-        <div class="font-pixel text-2xl">
+        <div class="font-pixel text-2xl text-white">
             Search by name
         </div>
         <div class="relative flex flex-col lg:flex-row items-center justify-center gap-2 lg:w-1/2 mx-auto py-5">

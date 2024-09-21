@@ -1,12 +1,12 @@
 <template>
-    <div class="flex items-center justify-center relative rounded-md cursor-pointer group min-w-24 min-h-14 lg:min-w-36 lg:min-h-16"
+    <div class="type-card flex items-center justify-center relative rounded-md cursor-pointer group min-w-24 min-h-14 lg:min-w-36 lg:min-h-16"
         @click="emitType">
-        <div class="font-semibold text-lg z-10 group-hover:text-white transition ease-in-out duration-500 capitalize">
+        <div class="card-text font-semibold text-xl z-10 text-white capitalize">
             {{ props.theType }}
         </div>
 
         <img :src="props.theImg"
-            class="absolute h-full w-full rounded-md brightness-50 group-hover:brightness-75 transition ease-in-out duration-500"
+            class="absolute h-full w-full rounded-md brightness-75 lg:brightness-50 lg:group-hover:brightness-75 transition ease-in-out duration-500"
             alt="Background" />
     </div>
 </template>
@@ -31,3 +31,22 @@ const emitType = () => {
 }
 
 </script>
+<style scoped>
+.type-card {
+    .card-text {
+        transition: all 0.5s ease-out;
+    }
+
+    @media (min-width: 768px) {
+        &:hover .card-text {
+            text-shadow: 1px 1px 4px black;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .card-text {
+            text-shadow: 1px 1px 4px black;
+        }
+    }
+}
+</style>

@@ -1,6 +1,6 @@
 <template>
     <div class="carousel-container py-5">
-        <div class="font-pixel text-2xl">
+        <div class="font-pixel text-2xl text-white">
             Filter by type
         </div>
         <div class="flex items-center gap-4 w-100 overflow-x-auto scrollbar-hide py-4">

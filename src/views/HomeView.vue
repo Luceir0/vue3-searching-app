@@ -3,6 +3,7 @@
         <TypeCarousel @type-selected="onTypeSelected"></TypeCarousel>
         <SearchBar></SearchBar>
         <PokemonGrid :selected-type="selectedType"></PokemonGrid>
+        <GoTopButton></GoTopButton>
     </div>
 </template>
 
@@ -11,6 +12,7 @@ import { ref } from 'vue'
 import TypeCarousel from '@/components/organisms/TypeCarousel.vue'
 import SearchBar from '@/components/organisms/SearchBar.vue'
 import PokemonGrid from '@/components/organisms/PokemonGrid.vue'
+import GoTopButton from '@/components/molecules/GoTopButton.vue'
 
 const selectedType = ref<string>('')
 

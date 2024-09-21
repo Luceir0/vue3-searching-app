@@ -1,6 +1,6 @@
 <template>
     <div class="pokemon-grid-container">
-        <div class="font-pixel text-2xl capitalize">
+        <div class="font-pixel text-2xl capitalize text-white">
             {{ theType }} Pokémon List
         </div>
 
@@ -16,16 +16,26 @@
         </div>
 
         <!-- When fetching is over -->
-        <div v-if="!pokemonStore.loading" class="grid grid-cols-1 gap-6 lg:gap-4 sm:grid-cols-2 lg:grid-cols-3 mt-6">
+        <div v-if="!pokemonStore.loading">
             <!-- If everything went ok and there are pokemon in the store list, we'll show every fetched pokemon card -->
-            <PokemonBasicCard v-if="pokemonStore.pokemonList.length > 0" v-for="pokemon in pokemonStore.pokemonList"
-                :key="pokemon.name" :the-name="pokemon.name" :the-front-img="pokemon.image_front || undefined"
-                :the-back-img="pokemon.image_back || undefined" :the-id="pokemon.id">
-            </PokemonBasicCard>
+            <div class="grid grid-cols-1 gap-6 lg:gap-4 sm:grid-cols-2 lg:grid-cols-3 mt-6">
+                <PokemonBasicCard v-if="pokemonStore.pokemonList.length > 0" v-for="pokemon in pokemonStore.pokemonList"
+                    :key="pokemon.name" :the-name="pokemon.name" :the-front-img="pokemon.image_front || undefined"
+                    :the-back-img="pokemon.image_back || undefined" :the-id="pokemon.id">
+                </PokemonBasicCard>
+            </div>
 
-            <!-- If there were no results, we are showing this message: -->
-            <div v-else class="font-pixel text-2xl mx-auto">No results</div>
+            <!-- Button to load more Pokémon -->
+            <div v-if="theType === 'All'" class="flex items-center justify-center my-8">
+                <button @click="loadMorePokemons"
+                    class="bg-pokemon-yellow hover:animate-pulse text-black text-lg rounded-full px-8 py-2 font-bold cursor-pointer">
+                    Gotta catch 'em all!
+                </button>
+            </div>
         </div>
+        <!-- If there were no results, we are showing this message: -->
+        <div v-if="!pokemonStore.loading && pokemonStore.pokemonList.length === 0" class="font-pixel text-2xl mx-auto">
+            No results</div>
     </div>
 </template>
 
@@ -58,8 +68,14 @@ watch(() => props.selectedType, (newType) => {
         pokemonStore.fetchPokemonsByType(newType)
         theType.value = newType
     } else {
-        pokemonStore.fetchPokemons()
+        // Force API call when 'all' is selected:
+        pokemonStore.fetchPokemons(true)
         theType.value = 'All'
     }
 })
+
+const loadMorePokemons = () => {
+    const newOffset = pokemonStore.currentOffset + pokemonStore.limit;
+    pokemonStore.fetchPokemons(false, newOffset);
+}
 </script>
