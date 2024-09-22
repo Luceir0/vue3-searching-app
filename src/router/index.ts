@@ -3,6 +3,7 @@ import HomeView from "@/views/HomeView.vue";
 import PokemonDetailView from "@/views/PokemonDetailView.vue";
 import NotFoundView from "@/views/NotFoundView.vue";
 
+// Here, we're defyning the views
 const routes = [
   { path: "/", component: HomeView },
   {
@@ -18,8 +19,10 @@ const routes = [
 ];
 
 const router = createRouter({
+  // To get a router history:
   history: createWebHistory(),
   routes,
+  // To return to the top of the page when we're navigating
   scrollBehavior() {
     return { top: 0 };
   },

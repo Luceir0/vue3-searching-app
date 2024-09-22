@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+// Importing interfaces:
 import type {
   Pokemon,
   PokemonDetail,
@@ -6,24 +7,27 @@ import type {
 } from "@/interfaces/pokemonInterfaces";
 
 export const usePokemonStore = defineStore("pokemon", {
+  // We're here setting an initial store state with the data we're using all along the app
   state: (): PokemonState => ({
     pokemonList: [],
     pokemonListError: null,
     selectedPokemon: null,
     selectedPokemonError: null,
     loading: false,
-    currentOffset: 0, // Estado para almacenar el offset actual
-    limit: 151, // Límite por defecto
+    currentOffset: 0,
+    limit: 151,
   }),
+  // Those are the endpoints we're calling from every component:
   actions: {
+    // Here, we're using this function to fetch all pokemons:
     async fetchPokemons(forceReload: boolean = false, offset: number = 0) {
-      // Verificando si hay una lista de Pokemons cacheada
+      // We're verifying if there's a cached pokemonList. We're here perventing the call to be made if we already have data at pokemonList array from the state object:
       if (
         this.pokemonList.length > 0 &&
         !forceReload &&
         offset === this.currentOffset
       ) {
-        return; // Evitar llamada si ya están cacheados y no se fuerza la recarga
+        return;
       }
 
       this.loading = true;
@@ -35,6 +39,8 @@ export const usePokemonStore = defineStore("pokemon", {
         );
         const data = await response.json();
 
+        // In a first result, we're getting only two keys: namd and url.
+        // With this url, we're getting some more data to show at the pokemonGrid (like id and front and back images)
         const promises = data.results.map(
           async (pokemon: { name: string; url: string }) => {
             const pokemonDetailsResponse = await fetch(pokemon.url);
@@ -50,29 +56,36 @@ export const usePokemonStore = defineStore("pokemon", {
           }
         );
 
-        // Si el offset es mayor a 0, concatenamos los nuevos resultados a la lista
+        // If we are sending an offset bigger than 0, we concatenate those new results to the previous pokemonList:
         if (offset > 0) {
           this.pokemonList = [
             ...this.pokemonList,
             ...(await Promise.all(promises)),
           ];
         } else {
-          // Si es el primer grupo, sobrescribimos la lista
+          // If not, we are overwritting this pokemonList:
           this.pokemonList = await Promise.all(promises);
         }
 
-        // Actualizamos el offset actual
+        // Also, we should update the current offSet:
         this.currentOffset = offset;
       } catch (error: any) {
+        // If there were an error, we are sending it to the store:
         this.pokemonListError = "Pokemon not found";
       } finally {
+        // Finally, the api call is done
         this.loading = false;
       }
     },
 
+    // Here, we're using this function to fetch pokemons by type:
     async fetchPokemonsByType(type: string) {
+      // We're making sure the app has a loading state
       this.loading = true;
+      // And we're making sure there's no an error showing at this time
       this.pokemonListError = null;
+
+      // This call is very similar to the previous one, with a different endpoint:
       try {
         const response = await fetch(`https://pokeapi.co/api/v2/type/${type}`);
         const data = await response.json();
@@ -98,15 +111,16 @@ export const usePokemonStore = defineStore("pokemon", {
       }
     },
 
+    // In this case we are fetching pokemon by id or name:
     async fetchPokemonByIdOrName(
       idOrName: string
     ): Promise<PokemonDetail | null> {
-      // Comprobando si el Pokémon ya está en caché
+      // we're starting checking if there's a pokemon cached at the state
       if (
         this.selectedPokemon?.name === idOrName ||
         this.selectedPokemon?.id === Number(idOrName)
       ) {
-        return this.selectedPokemon; // Si el Pokémon ya está cacheado, lo devolvemos directamente
+        return this.selectedPokemon; // If there's already a pokemon, we're showing it
       }
 
       this.loading = true;
@@ -117,15 +131,9 @@ export const usePokemonStore = defineStore("pokemon", {
           `https://pokeapi.co/api/v2/pokemon/${idOrName}`
         );
 
-        // Comprobar si la respuesta es válida
-        if (!response.ok) {
-          throw new Error("Pokemon not found");
-        }
-
-        // Parseamos la respuesta en formato JSON
         const pokemonDetail: PokemonDetail = await response.json();
 
-        // Formateamos el objeto para devolver solo los datos necesarios
+        // We're formatting the PokemonDetail to get only the data we're using it at the template:
         const formattedPokemonDetail: PokemonDetail = {
           id: pokemonDetail.id,
           name: pokemonDetail.name,
@@ -153,18 +161,18 @@ export const usePokemonStore = defineStore("pokemon", {
           })),
         };
 
-        // Cacheamos el Pokémon seleccionado
+        // We're caching the selectedPokemon
         this.selectedPokemon = formattedPokemonDetail;
 
-        // Devolvemos el detalle del Pokémon
+        // And returning the formattedDetail
         return formattedPokemonDetail;
       } catch (error: any) {
-        // Manejo de errores
+        // Handling errors
         this.selectedPokemonError = "Pokemon not found";
         this.selectedPokemon = null;
-        return null; // Devolver null si hay error
+        return null;
       } finally {
-        // Detener el estado de carga
+        // Loading is done
         this.loading = false;
       }
     },

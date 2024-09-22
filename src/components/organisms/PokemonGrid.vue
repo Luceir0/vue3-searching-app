@@ -41,7 +41,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch, nextTick } from 'vue' // Asegúrate de importar nextTick
+import { ref, onMounted, watch, nextTick } from 'vue'
 import { usePokemonStore } from "@/stores/pokemon"
 import PokemonBasicCard from '@/components/molecules/PokemonBasicCard.vue'
 import pokeballIcon from '@/assets/icons/pokeball-icon.png'
@@ -61,7 +61,7 @@ onMounted(() => {
     pokemonStore.fetchPokemons()
 });
 
-// Watch for type selection changes, and fetching accordingly:
+// Watch for type selection changes and fetching:
 watch(() => props.selectedType, (newType) => {
     if (newType && newType !== 'all') {
         pokemonStore.fetchPokemonsByType(newType)
@@ -73,26 +73,23 @@ watch(() => props.selectedType, (newType) => {
     }
 })
 
-// Guarda la posición de desplazamiento
+// Saving the scroll position (when we're loading more pokemon)
 const saveScrollPosition = () => {
     return window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
 }
 
-// Restaura la posición de desplazamiento después de asegurarse que el DOM está listo
+// Restoring the scroll position
 const restoreScrollPosition = (position: number) => {
-    requestAnimationFrame(() => {
-        window.scrollTo({ top: position, behavior: 'auto' });
-    });
+    window.scrollTo({ top: position, behavior: 'smooth' });
 }
 
-// Nueva función para cargar más Pokémon y restaurar el scroll
+// Loading more pokemon and restoring the scroll:
 const handleLoadMore = () => {
     const scrollPosition = saveScrollPosition();
 
-    // Cargar más Pokémon
     loadMorePokemons();
 
-    // Esperamos a que el DOM esté actualizado antes de restaurar la posición
+    // We're here waiting the DOM to be loaded to restore the last scroll position
     nextTick(() => {
         restoreScrollPosition(scrollPosition);
     });

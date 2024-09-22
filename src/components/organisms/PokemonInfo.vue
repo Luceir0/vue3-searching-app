@@ -1,6 +1,7 @@
 <template>
     <div
-        class="w-screen -mx-8 lg:w-auto lg:mx-0 rounded-t-2xl bg-white/5 lg:min-h-[calc(100vh-230px)] 2xl:min-h-[calc(100vh-550px)]">
+        class="w-screen -mx-8 lg:w-auto lg:mx-0 rounded-t-2xl lg:rounded-2xl bg-white/5 lg:min-h-[calc(100vh-230px)] 2xl:min-h-[calc(100vh-550px)]">
+        <!-- Buttons to change the showing info -->
         <div class="flex items-center justify-center">
             <div class="flex-1 h-full py-6 flex items-center justify-center font-semibold text-xl rounded-tl-2xl cursor-pointer lg:hover:bg-white/15"
                 :class="(activeCard === 'About') ? 'bg-white/10' : ''" @click="changecard('About')">
@@ -52,6 +53,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
+// We're getting the details object by prop
 const props = defineProps({
     pokemonDetail: {
         type: Object,
@@ -61,6 +63,7 @@ const props = defineProps({
 
 const activeCard = ref<string>('About')
 
+// We're here changing the showing activeCard
 const changecard = (theCard: string) => {
     activeCard.value = theCard
 }

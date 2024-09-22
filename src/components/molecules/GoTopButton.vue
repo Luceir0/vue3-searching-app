@@ -8,6 +8,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
+// Making the button to be shown only when user scrolls
 const isScrolled = ref(false);
 
 onMounted(() => {
@@ -16,6 +17,7 @@ onMounted(() => {
     });
 });
 
+// Making the app scroll to the top
 const scrollToTop = () => {
     document.documentElement.scrollIntoView({ behavior: 'smooth' });
 };

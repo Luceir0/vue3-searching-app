@@ -4,6 +4,7 @@
             Filter by type
         </div>
         <div class="flex items-center gap-4 w-100 overflow-x-auto scrollbar-hide py-4">
+            <!-- We're getting all the pokemon types from the interface and showing them in small cards -->
             <TypeCard v-for="(item, index) in pokemonTypes" :key="index" :the-type="item.name" :the-img="item.image"
                 @select-type="filterByType">
             </TypeCard>
@@ -19,8 +20,11 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+// On click, we're emitting the new type to the homepage to make a new api call to get a filtered pokemon list and showing it
 const emit = defineEmits(['type-selected'])
 
+// We're 'faking*' a navigation at the url 
+// *since this is a SPA
 const filterByType = (type: string) => {
     emit('type-selected', type)
     if (type != 'all') {

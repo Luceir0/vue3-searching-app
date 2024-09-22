@@ -1,46 +1,60 @@
-# pokemon-searching-app
+## pokemon-searching-app
 
-Pokemon searching app using Vue3 W Pinia + Typescript + Tailwind
+**A Pokémon searching app built with Vue 3, Pinia, TypeScript, and Tailwind CSS.**
 
-# frontend-role-play
+This app allows you to search and view detailed information about your favorite Pokémon.
 
-This template should help get you started developing with Vue 3 in Vite.
+### Screenshots
 
-## Recommended IDE Setup
+![Pantalla de inicio](/src/assets/screenshots/home.png)
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+### Technologies Used
 
-## Type Support for `.vue` Imports in TS
+- **Vue 3:** A progressive framework for building user interfaces.
+- **Pinia:** A Vue 3 state management library.
+- **TypeScript:** A superset of JavaScript that adds static typing for better code safety and maintainability.
+- **Tailwind CSS:** A low-level utility-first CSS framework for rapidly building custom user interfaces.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+### Installation and Running
 
-## Customize configuration
+**Prerequisites:**
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- Node.js and npm (or yarn) installed on your system.
 
-## Project Setup
+**Recommended IDE Setup:**
 
-```sh
+- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+
+**Project setup:**
+
+Clone the project:
+
+```bash
+git clone https://github.com/Luceir0/vue3-searching-app
+```
+
+Navigate to the project directory:
+
+```bash
+cd vue3-searching-app
+```
+
+Install dependencies:
+
+```bash
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+Start the development server:
 
-```sh
+```bash
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+Open your browser and go to http://localhost:5173 to view the app.
 
-```sh
-npm run build
-```
+### License
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+This project is licensed under the MIT License.
 
-```sh
-npm run test:unit
-```
-
-> > > > > > > 6ef1b6e (Starting project, installing dependencies, base ui, and fetch done)
-> > > > > > > c1c91c0 (Starting project, installing dependencies, base ui, and fetch done)
+**Have fun!**

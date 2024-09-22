@@ -26,6 +26,7 @@ const props = defineProps({
 
 const emit = defineEmits(['select-type'])
 
+// Emitting the selected type to the homepage to make an api call and reload the pokemonGrid with the results
 const emitType = () => {
     emit('select-type', props.theType)
 }

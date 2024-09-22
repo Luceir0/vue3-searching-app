@@ -1,5 +1,6 @@
 <template>
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:px-12">
+        <!-- If we get a pokemon detail we'll show it to the user -->
         <div v-if="pokemonDetail"
             class="flex-grow flex flex-col lg:flex-row items-top lg:items-top lg:mt-6 justify-around lg:gap-20">
             <div class="mt-8 lg:mt-0">
@@ -22,23 +23,26 @@
                 </div>
             </div>
 
+            <!-- This is showing the pokemon detail data card with all the content we're passing by props -->
             <PokemonInfo :pokemon-detail="pokemonDetail"
                 class="fixed bottom-0 h-2/5 lg:static lg:bottom-auto lg:flex-grow">
             </PokemonInfo>
         </div>
 
-        <div v-else-if="loading" class="flex flex-col gap-10 items-center justify-center">
+        <!-- While api call is not finished, we're showing a spinner -->
+        <div v-else-if="pokemonStore.loading" class="flex flex-col gap-10 items-center justify-center">
             <img class="animate-spin w-12 h-auto mt-12" :src="pokeballIcon" alt="Loading...">
         </div>
 
-        <div v-else class="flex flex-col gap-4 items-center justify-center py-8">
-            <img class="w-40" :src="notFoundIcon" alt="Not found">
-            <div class="font-pixel text-2xl text-pokemon-yellow">{{ errorMessage }}</div>
-            <router-link to="/"
-                class="flex gap-4 mt-10 align-middle bg-zinc-800 justify-center hover:text-white hover:-translate-x-1 transition ease-in-out duration-300 cursor-pointer text-lg border rounded-md px-4 py-2">
-                Return home 🏠
-            </router-link>
-        </div>
+    </div>
+    <!-- If there's an error, we are showing a not found message, and we're helping the user return home -->
+    <div v-if="errorMessage" class="flex flex-col gap-4 items-center justify-center py-8">
+        <img class="w-40" :src="notFoundIcon" alt="Not found">
+        <div class="font-pixel text-2xl text-pokemon-yellow">{{ errorMessage }}</div>
+        <router-link to="/"
+            class="flex gap-4 mt-10 align-middle bg-zinc-800 justify-center hover:text-white hover:-translate-x-1 transition ease-in-out duration-300 cursor-pointer text-lg border rounded-md px-4 py-2">
+            Return home 🏠
+        </router-link>
     </div>
 </template>
 
@@ -58,15 +62,14 @@ import PokemonInfo from '@/components/organisms/PokemonInfo.vue'
 
 const pokemonStore = usePokemonStore()
 const pokemonDetail = ref<PokemonDetail | null>(null)
-const loading = ref(true)
 const errorMessage = ref<string | null>(null)
 const route = useRoute()
 const router = useRouter()
 
-
+// On mounted, we are getting the idOrName param from the url, and calling the fetchPokemonByIdOrName endpoint from the pokemon store.
+// When and if we get a result, we are showing it at the template. If not, we're showing a not found message.
 onMounted(async () => {
     const pokemonIdOrName = route.params.idOrName as string
-    loading.value = true
 
     const result = await pokemonStore.fetchPokemonByIdOrName(pokemonIdOrName)
 
@@ -77,14 +80,16 @@ onMounted(async () => {
         errorMessage.value = pokemonStore.selectedPokemonError
     }
 
-    loading.value = false
 })
 
+// We are getting the type background images from the pokemonTypes interface, and depending on the pokemon type we get from the api call
 const getTypeImage = (typeName: string) => {
     const type = pokemonTypes.find(t => t.name === typeName.toLowerCase());
     return type ? type.image : defaultBackground;
 }
 
+// If user selects a pokemon type, app is redirecting to homeView and showinf the user the filtered list of the pokemon (depending on the selected value) 
+// This will make an api call at homeView
 const sendMeHomeAndFilter = (type: string) => {
     router.push({ path: '/', query: { type: type } });
 };
