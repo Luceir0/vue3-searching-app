@@ -25,7 +25,7 @@ This app allows you to search and view detailed information about your favorite 
 
 - [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-**Project setup:**
+### Project setup
 
 Clone the project:
 
@@ -57,4 +57,4 @@ Open your browser and go to http://localhost:5173 to view the app.
 
 This project is licensed under the MIT License.
 
-**Have fun!**
+### Have fun!
