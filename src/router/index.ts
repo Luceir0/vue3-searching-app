@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "@/views/HomeView.vue";
 import PokemonDetailView from "@/views/PokemonDetailView.vue";
+import NotFoundView from "@/views/NotFoundView.vue";
 
 const routes = [
   { path: "/", component: HomeView },
@@ -8,6 +9,11 @@ const routes = [
     path: "/pokemon/:idOrName",
     name: "PokemonDetails",
     component: PokemonDetailView,
+  },
+  {
+    path: "/:pathMatch(.*)*",
+    name: "NotFound",
+    component: NotFoundView,
   },
 ];
 

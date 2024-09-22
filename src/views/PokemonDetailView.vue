@@ -15,13 +15,14 @@
 
                 <div class="mt-4 flex flex-col gap-2">
                     <div v-for="(type, index) in pokemonDetail.types.slice(0, 2)" :key="index" class="capitalize">
-                        <TypeCard :the-type="type.type.name" :the-img="getTypeImage(type.type.name)">
+                        <TypeCard :the-type="type.type.name" :the-img="getTypeImage(type.type.name)"
+                            @click="sendMeHomeAndFilter(type.type.name)">
                         </TypeCard>
                     </div>
                 </div>
-
-
             </div>
+
+            <SearchBar></SearchBar>
 
             <PokemonInfo :pokemon-detail="pokemonDetail"
                 class="fixed bottom-0 h-2/5 lg:static lg:bottom-auto lg:flex-grow">
@@ -45,7 +46,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import type { PokemonDetail } from '@/interfaces/pokemonInterfaces'
 import { usePokemonStore } from '@/stores/pokemon'
 import { pokemonTypes } from '@/interfaces/pokemonTypes'
@@ -56,11 +57,14 @@ import imgNotFound from '@/assets/icons/img-not-found.png'
 import TypeCard from '@/components/molecules/TypeCard.vue'
 import PokemonInfo from '@/components/organisms/PokemonInfo.vue'
 
+
 const pokemonStore = usePokemonStore()
 const pokemonDetail = ref<PokemonDetail | null>(null)
 const loading = ref(true)
 const errorMessage = ref<string | null>(null)
 const route = useRoute()
+const router = useRouter()
+
 
 onMounted(async () => {
     const pokemonIdOrName = route.params.idOrName as string
@@ -82,4 +86,8 @@ const getTypeImage = (typeName: string) => {
     const type = pokemonTypes.find(t => t.name === typeName.toLowerCase());
     return type ? type.image : defaultBackground;
 }
+
+const sendMeHomeAndFilter = (type: string) => {
+    router.push({ path: '/', query: { type: type } });
+};
 </script>
