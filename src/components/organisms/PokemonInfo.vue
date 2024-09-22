@@ -1,5 +1,6 @@
 <template>
-    <div class="w-screen -mx-8 lg:w-auto lg:mx-0 rounded-t-2xl bg-white/5 lg:min-h-[calc(100vh-230px)]">
+    <div
+        class="w-screen -mx-8 lg:w-auto lg:mx-0 rounded-t-2xl bg-white/5 lg:min-h-[calc(100vh-230px)] 2xl:min-h-[calc(100vh-550px)]">
         <div class="flex items-center justify-center">
             <div class="flex-1 h-full py-6 flex items-center justify-center font-semibold text-xl rounded-tl-2xl cursor-pointer lg:hover:bg-white/15"
                 :class="(activeCard === 'About') ? 'bg-white/10' : ''" @click="changecard('About')">
@@ -19,10 +20,10 @@
             </div>
             <div class="text-xl font-semibold mt-4"><span class="font-bold pr-2">📏 Height:</span> {{
                 props.pokemonDetail.height
-            }} ''</div>
+                }} ''</div>
             <div class="text-xl font-semibold mt-4"><span class="font-bold pr-2">⚖️ Weight:</span> {{
                 props.pokemonDetail.weight
-                }} lbs</div>
+            }} lbs</div>
         </div>
 
         <!-- Abilities -->
@@ -37,7 +38,7 @@
 
         <!-- Moves -->
         <div v-if="activeCard === 'Moves'" class="py-5 px-10">
-            <ul class="moves-list list-inside max-h-60 overflow-auto">
+            <ul class="moves-list list-inside max-h-60 2xl:max-h-80 overflow-auto">
                 <li v-for="(move, index) in props.pokemonDetail.moves.slice(0, 10)" :key="index"
                     class="capitalize text-xl font-semibold mt-4">
                     {{ move.move.name }}

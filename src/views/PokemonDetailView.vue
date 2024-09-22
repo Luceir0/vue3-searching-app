@@ -22,8 +22,6 @@
                 </div>
             </div>
 
-            <SearchBar></SearchBar>
-
             <PokemonInfo :pokemon-detail="pokemonDetail"
                 class="fixed bottom-0 h-2/5 lg:static lg:bottom-auto lg:flex-grow">
             </PokemonInfo>
