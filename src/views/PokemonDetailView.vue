@@ -2,7 +2,7 @@
     <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:px-12">
         <!-- If we get a pokemon detail we'll show it to the user -->
         <div v-if="pokemonDetail"
-            class="flex-grow flex flex-col lg:flex-row items-top lg:items-top lg:mt-6 justify-around lg:gap-20">
+            class="flex-grow flex flex-col lg:flex-row items-top lg:items-top lg:mt-6 2xl:mt-24 justify-around lg:gap-20">
             <div class="mt-8 lg:mt-0">
                 <div class="flex items-center justify-between px-4 py-2 lg:pb-2 lg:pt-0">
                     <div class="font-pixel text-4xl capitalize truncate">{{ pokemonDetail.name }}</div>
