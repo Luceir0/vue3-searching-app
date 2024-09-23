@@ -5,7 +5,7 @@
         </div>
         <div class="relative flex flex-col lg:flex-row items-center justify-center gap-2 lg:w-1/2 mx-auto py-5">
             <img src="@/assets/icons/search-icon.png" alt="Search" class="absolute left-4 top-8 h-6 w-6">
-            <input type="text" v-model="searchQuery" placeholder="Write here a Pokemon name"
+            <input type="text" v-model="searchQuery" placeholder="Write here a Pokemon name or ID"
                 class="text-black rounded-3xl h-12 lg:h-10 w-full pl-12" @keyup.enter="onSearchClick">
             <!-- With this @keyup.enter="onSearchClick" we're letting the user press enter to start searching -->
             <button @click="onSearchClick"

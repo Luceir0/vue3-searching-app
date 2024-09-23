@@ -25,7 +25,7 @@ This app allows you to search and view detailed information about your favorite 
 
 - [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
 
-### Project setup
+## Project setup
 
 Clone the project:
 
@@ -53,8 +53,12 @@ npm run dev
 
 Open your browser and go to http://localhost:5173 to view the app.
 
-### License
+### How to use it
 
-This project is licensed under the MIT License.
+- **Homepage:** View a list of Pokémon. Click on a Pokémon to see its details.
+- **Type Filter:** Explore Pokémon by type in the carousel. Click on a type name to filter the list.
+- **Search:** Quickly find Pokémon by name or ID using the search bar.
+- **URL Search:** Directly access Pokémon details by entering /pokemon/{{idorname}} in the URL.
+- **Pokémon Detail Page:** See Pokémon details and filter by type.
 
 ### Have fun!
