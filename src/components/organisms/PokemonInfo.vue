@@ -24,7 +24,7 @@
                 }} ''</div>
             <div class="text-xl font-semibold mt-4"><span class="font-bold pr-2">⚖️ Weight:</span> {{
                 props.pokemonDetail.weight
-            }} lbs</div>
+                }} lbs</div>
         </div>
 
         <!-- Abilities -->

@@ -1,6 +1,6 @@
 <template>
     <!-- redirecting the user to the detail url -->
-    <router-link :to="'/pokemon/' + props.theId" class="pokemon-card-link">
+    <router-link :to="'/pokemon/' + props.theId" class="pokemon-card-link" data-test-id="pokemon-card-link">
         <div
             class="bg-white/5 hover:bg-white/10 transition ease-in-out duration-500 rounded-lg p-2 lg:p-4 flex lg:flex-col items-center justify-between gap-4 cursor-pointer group overflow-hidden">
             <div

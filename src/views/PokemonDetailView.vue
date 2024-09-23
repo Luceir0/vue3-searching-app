@@ -5,10 +5,11 @@
             class="flex-grow flex flex-col lg:flex-row items-top lg:items-top lg:mt-6 2xl:mt-24 justify-around lg:gap-20">
             <div class="mt-8 lg:mt-0">
                 <div class="flex items-center justify-between px-4 py-2 lg:pb-2 lg:pt-0 -mt-10 lg:mt-0">
-                    <div class="font-pixel text-4xl capitalize truncate">{{ pokemonDetail.name }}</div>
+                    <div class="info-name font-pixel text-4xl capitalize truncate" data-test-id="info-name">{{
+                        pokemonDetail.name }}</div>
                     <div class="font-pixel text-3xl"># {{ pokemonDetail.id }}</div>
                 </div>
-                <div class="flex items-center justify-center">
+                <div class="info-img flex items-center justify-center" data-test-id="info-img">
                     <img :src="pokemonDetail.sprites.front_default || imgNotFound" alt="Front Image"
                         class="w-28 lg:w-40 mt-2" />
                     <img :src="pokemonDetail.sprites.back_default || imgNotFound" alt="Back Image"
@@ -18,7 +19,7 @@
                 <div class="mt-4 flex flex-col gap-2">
                     <div v-for="(type, index) in pokemonDetail.types.slice(0, 2)" :key="index" class="capitalize">
                         <TypeCard :the-type="type.type.name" :the-img="getTypeImage(type.type.name)"
-                            @click="sendMeHomeAndFilter(type.type.name)">
+                            @click="sendMeHomeAndFilter(type.type.name)" data-test-id="type-card">
                         </TypeCard>
                     </div>
                 </div>

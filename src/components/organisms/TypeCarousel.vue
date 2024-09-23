@@ -6,7 +6,7 @@
         <div class="flex items-center gap-4 w-100 overflow-x-auto scrollbar-hide py-4">
             <!-- We're getting all the pokemon types from the interface and showing them in small cards -->
             <TypeCard v-for="(item, index) in pokemonTypes" :key="index" :the-type="item.name" :the-img="item.image"
-                @select-type="filterByType">
+                @select-type="filterByType" data-test-id="type-card">
             </TypeCard>
         </div>
     </div>
