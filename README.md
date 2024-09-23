@@ -53,7 +53,7 @@ npm run dev
 
 Open your browser and go to http://localhost:5173 to view the app.
 
-### How to use it
+## How to use it
 
 - **Homepage:** View a list of Pokémon. Click on a Pokémon to see its details.
 - **Type Filter:** Explore Pokémon by type in the carousel. Click on a type name to filter the list.
@@ -61,4 +61,4 @@ Open your browser and go to http://localhost:5173 to view the app.
 - **URL Search:** Directly access Pokémon details by entering /pokemon/{{idorname}} in the URL.
 - **Pokémon Detail Page:** See Pokémon details and filter by type.
 
-### Have fun!
+**Have fun!**
